@@ -10,10 +10,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.Collection;
-import java.util.Date;
-import java.util.EnumSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "users")
@@ -41,6 +38,10 @@ public class User extends NamedEntity {
     @NotNull
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Date registered = new Date();
+
+    @OneToMany
+    @JoinColumn(name = "user_id")//создает колонку user_id в таблице с заявками
+    private List<Statement> statementList;
 
     @Enumerated(EnumType.STRING)
     @CollectionTable(name = "user_roles",
