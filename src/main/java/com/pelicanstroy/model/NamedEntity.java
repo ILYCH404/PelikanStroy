@@ -10,7 +10,7 @@ import javax.validation.constraints.Size;
 @MappedSuperclass
 @Getter
 @Setter
-@NoArgsConstructor(access = AccessLevel.PUBLIC)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class NamedEntity extends BaseEntity {
 
     @NotBlank

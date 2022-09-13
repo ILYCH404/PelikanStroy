@@ -5,7 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
-@NoArgsConstructor(access = AccessLevel.PUBLIC)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @MappedSuperclass//аннотация позволяет вынести общие поля в родительских класс не создавая таблицу
 @Access(AccessType.FIELD)
 @Getter
