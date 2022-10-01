@@ -1,6 +1,7 @@
 package com.pelicanstroy.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.pelicanstroy.HasIdAndEmail;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -10,6 +11,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.util.*;
 
 @Entity
@@ -18,7 +20,7 @@ import java.util.*;
 @Setter
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 @ToString(callSuper = true, exclude = {"password"})
-public class User extends NamedEntity {
+public class User extends NamedEntity implements HasIdAndEmail, Serializable {
     @Column(name = "phone", nullable = false)
     @Size(max = 11)
     @NotBlank
@@ -57,8 +59,8 @@ public class User extends NamedEntity {
         this(u.id, u.firstName, u.middleName, u.lastName, u.phone, u.email, u.password, u.enabled, u.registered, u.roles);
     }
 
-    public User(Integer id, String firstName, String middleName, String lastName, String phone, String email, String password, boolean enabled, Date registred, Role role, Role... roles) {
-        this(id, firstName, middleName, lastName, phone, email, password, enabled, registred, EnumSet.of(role, roles));
+    public User(Integer id, String firstName, String middleName, String lastName, String phone, String email, String password, Role role, Role... roles) {
+        this(id, firstName, middleName, lastName, phone, email, password, true, new Date(), EnumSet.of(role, roles));
     }
 
     public User(Integer id, String firstName, String middleName, String lastName, String phone, String email, String password, boolean enabled, Date registered, Set<Role> roles) {
