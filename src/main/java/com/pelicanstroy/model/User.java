@@ -2,6 +2,7 @@ package com.pelicanstroy.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.pelicanstroy.HasIdAndEmail;
+import com.pelicanstroy.util.validation.NoHtml;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -28,6 +29,7 @@ public class User extends NamedEntity implements HasIdAndEmail, Serializable {
     @Column(name = "email", nullable = false)
     @Size(max = 100)
     @NotBlank
+    @NoHtml
     private String email;
     @Column(name = "password", nullable = false)
     @NotBlank
