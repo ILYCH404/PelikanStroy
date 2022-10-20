@@ -8,8 +8,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
+
+import static com.pelicanstroy.util.validation.ValidationUtil.assureIdConsistent;
+import static com.pelicanstroy.util.validation.ValidationUtil.checkNew;
 
 @Controller
 @RequestMapping(value = AdminUserController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -24,7 +30,17 @@ public class AdminUserController extends AbstractUserController {
 
     @GetMapping("/by-email")
     public ResponseEntity<User> getByEmail(@RequestParam String email) {
-        return ResponseEntity.of(userRepository.getByEmail(email));
+        return ResponseEntity.of(repository.getByEmail(email));
+    }
+
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<User> createWithLocation(@Valid @RequestBody User user) {
+        checkNew(user);
+        User created = prepareAndSave(user);
+        URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path(REST_URL + "/{id}")
+                .buildAndExpand(created.getId()).toUri();
+        return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
     @Override
@@ -36,14 +52,21 @@ public class AdminUserController extends AbstractUserController {
 
     @GetMapping
     public List<User> getAll() {
-        return userRepository.findAll(Sort.by(Sort.Direction.ASC, "middleName"));
+        return repository.findAll(Sort.by(Sort.Direction.ASC, "middleName"));
     }
 
     @PatchMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
     public void enable(@PathVariable int id, @RequestParam boolean enabled) {
-        User user = userRepository.getById(id);
+        User user = repository.getById(id);
         user.setEnabled(enabled);
+    }
+
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void update (User user, int id) {
+        assureIdConsistent(user, id);
+        prepareAndSave(user);
     }
 }
