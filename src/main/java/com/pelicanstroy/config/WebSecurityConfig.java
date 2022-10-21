@@ -49,11 +49,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    protected void configure(HttpSecurity http) throws Exception {//Настройка доступа к различным
         http.authorizeRequests()
-                .antMatchers("/api/admin/**").hasRole(Role.ADMIN.name())
-                .antMatchers(HttpMethod.POST, "/api/profile").anonymous()
-                .antMatchers("/api/**").authenticated()
+                .antMatchers("/api/admin/**").hasRole(Role.ADMIN.name())//Доступ по данному url только для пользователей с ролью администратор
+                .antMatchers(HttpMethod.POST, "/api/profile").anonymous()//
+                .antMatchers("/api/**").authenticated()//По url /api/** могут заходить все зарегистрированные пользователи
                 .and().httpBasic()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().csrf().disable();
