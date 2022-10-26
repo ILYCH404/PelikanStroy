@@ -9,6 +9,7 @@ import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -23,7 +24,7 @@ import java.util.*;
 @ToString(callSuper = true, exclude = {"password"})
 public class User extends NamedEntity implements HasIdAndEmail, Serializable {
     @Column(name = "phone", nullable = false)
-    @Size(max = 11)
+    @Size(max = 12)
     @NotBlank
     private String phone;
     @Column(name = "email", nullable = false)
