@@ -3,8 +3,6 @@ package com.pelicanstroy.web;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import java.util.Map;
-
 @Controller
 public class MainController {
 
@@ -16,6 +14,26 @@ public class MainController {
     @GetMapping("/main")
     public String main() {
         return "/main";
+    }
+
+    @GetMapping("/statement")
+    public String statement() {
+        return "/statement";
+    }
+
+    @GetMapping("/news")
+    public String news() {
+        return "/news";
+    }
+
+    @GetMapping("/projects")
+    public String projects() {
+        return "projects";
+    }
+
+    @GetMapping("/aboutUs")
+    public String aboutUs() {
+        return "aboutUs";
     }
 
 }
