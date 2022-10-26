@@ -22,51 +22,5 @@ import static com.pelicanstroy.util.validation.ValidationUtil.checkNew;
 public class AdminUserController extends AbstractUserController {
     static final String REST_URL = "/api/admin/users";
 
-    @Override
-    @GetMapping("/{id}")
-    public ResponseEntity<User> get(@PathVariable int id) {
-        return super.get(id);
-    }
 
-    @GetMapping("/by-email")
-    public ResponseEntity<User> getByEmail(@RequestParam String email) {
-        return ResponseEntity.of(repository.getByEmail(email));
-    }
-
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> createWithLocation(@Valid @RequestBody User user) {
-        checkNew(user);
-        User created = prepareAndSave(user);
-        URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(REST_URL + "/{id}")
-                .buildAndExpand(created.getId()).toUri();
-        return ResponseEntity.created(uriOfNewResource).body(created);
-    }
-
-    @Override
-    @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable int id) {
-        super.delete(id);
-    }
-
-    @GetMapping
-    public List<User> getAll() {
-        return repository.findAll(Sort.by(Sort.Direction.ASC, "middleName"));
-    }
-
-    @PatchMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @Transactional
-    public void enable(@PathVariable int id, @RequestParam boolean enabled) {
-        User user = repository.getById(id);
-        user.setEnabled(enabled);
-    }
-
-    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update (User user, int id) {
-        assureIdConsistent(user, id);
-        prepareAndSave(user);
-    }
 }

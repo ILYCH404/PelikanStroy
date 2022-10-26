@@ -17,7 +17,7 @@ import javax.persistence.*;
 @Setter
 public abstract class BaseEntity implements Persistable<Integer>, HasId {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Integer id;
 
     public int id() {
