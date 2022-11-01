@@ -6,10 +6,11 @@ import com.pelicanstroy.util.validation.NoHtml;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -22,7 +23,7 @@ import java.util.*;
 @Setter
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 @ToString(callSuper = true, exclude = {"password"})
-public class User extends NamedEntity implements HasIdAndEmail, Serializable {
+public class User extends NamedEntity implements HasIdAndEmail, Serializable, UserDetails {
     @Column(name = "phone", nullable = false)
     @Size(max = 12)
     @NotBlank
@@ -59,15 +60,15 @@ public class User extends NamedEntity implements HasIdAndEmail, Serializable {
     private Set<Role> roles;
 
     public User(User u) {
-        this(u.id, u.firstName, u.middleName, u.lastName, u.phone, u.email, u.password, u.enabled, u.registered, u.roles);
+        this(u.id, u.fullName, u.phone, u.email, u.password, u.enabled, u.registered, u.roles);
     }
 
-    public User(Integer id, String firstName, String middleName, String lastName, String phone, String email, String password, Role role, Role... roles) {
-        this(id, firstName, middleName, lastName, phone, email, password, true, new Date(), EnumSet.of(role, roles));
+    public User(Integer id, String fullName, String phone, String email, String password, Role role, Role... roles) {
+        this(id, fullName, phone, email, password, true, new Date(), EnumSet.of(role, roles));
     }
 
-    public User(Integer id, String firstName, String middleName, String lastName, String phone, String email, String password, boolean enabled, Date registered, Set<Role> roles) {
-        super(id, firstName, middleName, lastName);
+    public User(Integer id, String fullName, String phone, String email, String password, boolean enabled, Date registered, Set<Role> roles) {
+        super(id, fullName);
         this.phone = phone;
         this.email = email;
         this.password = password;
@@ -78,5 +79,30 @@ public class User extends NamedEntity implements HasIdAndEmail, Serializable {
 
     public void setRoles(Collection<Role> roles) {
         this.roles = CollectionUtils.isEmpty(roles) ? EnumSet.noneOf(Role.class) : EnumSet.copyOf(roles);
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return getRoles();
+    }
+
+    @Override
+    public String getUsername() {
+        return fullName;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
     }
 }

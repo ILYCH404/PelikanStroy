@@ -14,31 +14,17 @@ public class NamedTo extends BaseTo {
     @NotBlank
     @Size(min = 2, max = 100)
     @NoHtml
-    protected String firstName;
+    protected String fullName;
 
-    @NotBlank
-    @Size(min = 2, max = 100)
-    @NoHtml
-    protected String middleName;
-
-    @NotBlank
-    @Size(min = 2, max = 100)
-    @NoHtml
-    protected String lastName;
-
-    public NamedTo(Integer id, String firstName, String middleName, String lastName) {
+    public NamedTo(Integer id, String fullName) {
         super(id);
-        this.firstName = firstName;
-        this.middleName = middleName;
-        this.lastName = lastName;
+        this.fullName = fullName;
     }
 
     @Override
     public String toString() {
         return "NamedTo{" +
-                "name='" + firstName + '\'' +
-                ", middleName='" + middleName + '\'' +
-                ", lastName='" + lastName + '\'' +
+                "name='" + fullName + '\'' +
                 '}';
     }
 }

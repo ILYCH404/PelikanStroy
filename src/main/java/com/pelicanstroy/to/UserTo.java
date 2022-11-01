@@ -30,8 +30,8 @@ public class UserTo extends NamedTo implements HasIdAndEmail {
     @Size(min = 5, max = 32)
     String password;
 
-    public UserTo(Integer id, String firstName,String middleName,String lastName, String phone,  String email, String password) {
-        super(id, firstName, middleName, lastName);
+    public UserTo(Integer id, String fullName, String phone,  String email, String password) {
+        super(id, fullName);
         this.phone = phone;
         this.email = email;
         this.password = password;

@@ -15,28 +15,16 @@ public abstract class NamedEntity extends BaseEntity {
 
     @NotBlank
     @Size(min = 2, max = 100)
-    @Column(name = "firstName", nullable = false)
-    protected String firstName;
+    @Column(name = "fullName", nullable = false)
+    protected String fullName;
 
-    @NotBlank
-    @Size(min = 2, max = 100)
-    @Column(name = "middleName", nullable = false)
-    protected String middleName;
-
-    @NotBlank
-    @Size(min = 2, max = 100)
-    @Column(name = "lastName")
-    protected String lastName;
-
-    public NamedEntity(Integer id, String firstName, String middleName, String lastName) {
+    public NamedEntity(Integer id, String fullName) {
         super(id);
-        this.firstName = firstName;
-        this.middleName = middleName;
-        this.lastName = lastName;
+        this.fullName = fullName;
     }
 
     @Override
     public String toString() {
-        return super.toString() + "[" + firstName + " " + middleName + " " + lastName + "]";
+        return super.toString() + "[" + fullName + "]";
      }
 }
