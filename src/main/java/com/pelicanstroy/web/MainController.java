@@ -8,27 +8,12 @@ public class MainController {
 
     @GetMapping("/")
     public String greeting() {
-        return "/main";
+        return "greeting";
     }
 
-    @GetMapping("/statement")
-    public String statement() {
-        return "/statement";
-    }
-
-    @GetMapping("/news")
-    public String news() {
-        return "/news";
-    }
-
-    @GetMapping("/projects")
-    public String projects() {
-        return "projects";
-    }
-
-    @GetMapping("/aboutUs")
-    public String aboutUs() {
-        return "aboutUs";
+    @GetMapping("/main")
+    public String main() {
+        return "main";
     }
 
 }
