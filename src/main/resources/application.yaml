@@ -12,3 +12,5 @@ spring:
     url: jdbc:h2:file:E:\Projects\PelikanStroy;MV_STORE=false;AUTO_SERVER=TRUE
     username: sa
     password: sa
+  mustache:
+    expose-request-attributes: true
